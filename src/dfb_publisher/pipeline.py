@@ -53,7 +53,7 @@ def run_publish(settings: Settings, period: Period) -> PublishResult:
 
         if zips_dir.exists():
             shutil.rmtree(zips_dir)
-        zips = zip_programs(month_local, zips_dir)
+        zips = zip_programs(month_local, zips_dir, settings.zip_password)
         if not zips:
             reason = "No hay carpetas de programa con manifiesto.csv"
             logger.warning(reason)

@@ -32,6 +32,7 @@ class Settings:
     smtp_password: str
     smtp_from_email: str
     smtp_from_name: str
+    zip_password: str
     smtp_to: list[str] = field(default_factory=list)
     smtp_cc: list[str] = field(default_factory=list)
 
@@ -96,6 +97,7 @@ def load_settings(root: Path | None = None) -> Settings:
         smtp_password=os.getenv("SMTP_PASSWORD", ""),
         smtp_from_email=os.getenv("SMTP_FROM_EMAIL", "").strip(),
         smtp_from_name=os.getenv("SMTP_FROM_NAME", "Analisis&Tecnologia").strip(),
+        zip_password=os.getenv("ZIP_PASSWORD", ""),
         smtp_to=smtp_to,
         smtp_cc=smtp_cc,
     )
@@ -121,5 +123,7 @@ def require_runtime(settings: Settings) -> None:
         missing.append("SMTP_HOST/USER/PASSWORD")
     if not settings.smtp_from_email or not settings.smtp_to:
         missing.append("SMTP_FROM_EMAIL / SMTP_TO")
+    if not settings.zip_password:
+        missing.append("ZIP_PASSWORD")
     if missing:
         raise RuntimeError("Config incompleta: " + ", ".join(missing))

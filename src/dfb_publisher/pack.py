@@ -1,10 +1,11 @@
-"""Comprime cada carpeta de programa en un ZIP."""
+"""Comprime cada carpeta de programa en un ZIP AES-256 con clave."""
 
 from __future__ import annotations
 
-import zipfile
 from dataclasses import dataclass
 from pathlib import Path
+
+import pyzipper
 
 MANIFEST = "manifiesto.csv"
 
@@ -28,20 +29,30 @@ def program_dirs(month_dir: Path) -> list[Path]:
     return out
 
 
-def zip_programs(month_dir: Path, out_dir: Path) -> list[ZipResult]:
+def zip_programs(month_dir: Path, out_dir: Path, password: str) -> list[ZipResult]:
+    if not password:
+        raise ValueError("ZIP_PASSWORD vacío: se requiere clave para AES-256")
     out_dir.mkdir(parents=True, exist_ok=True)
     results: list[ZipResult] = []
     for folder in program_dirs(month_dir):
         zip_path = out_dir / f"{folder.name}.zip"
-        _zip_dir(folder, zip_path)
+        _zip_dir_aes(folder, zip_path, password)
         results.append(ZipResult(program=folder.name, zip_path=zip_path))
     return results
 
 
-def _zip_dir(source: Path, zip_path: Path) -> None:
+def _zip_dir_aes(source: Path, zip_path: Path, password: str) -> None:
     if zip_path.is_file():
         zip_path.unlink()
-    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+    pwd = password.encode("utf-8")
+    with pyzipper.AESZipFile(
+        zip_path,
+        "w",
+        compression=pyzipper.ZIP_DEFLATED,
+        encryption=pyzipper.WZ_AES,
+    ) as zf:
+        zf.setpassword(pwd)
+        zf.setencryption(pyzipper.WZ_AES, nbits=256)
         for path in sorted(source.rglob("*")):
             if path.is_dir():
                 continue

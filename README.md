@@ -6,7 +6,7 @@ No genera el respaldo: Issabel ya lo hace. Este proyecto, en **otro servidor**:
 
 1. Lee `job.json` por SFTP y solo continúa si `status=done` y el mes coincide.
 2. Descarga el mes completo (`reporte.html` + carpetas de programa).
-3. Crea un **ZIP por programa** (carpetas con `manifiesto.csv`).
+3. Crea un **ZIP por programa** con **clave + AES-256** (carpetas con `manifiesto.csv`).
 4. Sube a Drive: `{año}/{mes}/{programa}/{programa}.zip` y el informe renombrado `R_IT_AUD_002_{MES}_{AÑO}.html`.
 5. Envía correo de **éxito** (inventario) o de **omisión/error** (siempre avisa).
 
@@ -34,7 +34,7 @@ cp .env.example .env
 cp config/settings.example.toml config/settings.toml
 ```
 
-Complete `.env` y `config/settings.toml`. Coloque en `secrets/`:
+Complete `.env` (incluye `ZIP_PASSWORD`, obligatoria) y `config/settings.toml`. Coloque en `secrets/`:
 
 | Archivo | Uso |
 |---------|-----|
