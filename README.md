@@ -20,11 +20,13 @@ No genera el respaldo: Issabel ya lo hace. Este proyecto, en **otro servidor**:
 ## Instalación (porteo)
 
 ```bat
-:: Windows
+:: Windows (PowerShell o cmd, desde la carpeta del proyecto)
 scripts\setup.bat
 copy .env.example .env
 copy config\settings.example.toml config\settings.toml
 ```
+
+Si `setup.bat` falla o `run_publish` dice que falta el venv: borre la carpeta `.venv` (si existe a medias), asegúrese de tener Python 3.11+ de [python.org](https://www.python.org/downloads/) (no el de Inkscape) y vuelva a ejecutar `scripts\setup.bat`. El script usa el launcher `py -3` y crea `.venv\Scripts\python.exe`.
 
 ```bash
 # Linux

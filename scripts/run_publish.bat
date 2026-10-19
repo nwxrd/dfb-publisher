@@ -1,11 +1,13 @@
 @echo off
-setlocal
+setlocal EnableExtensions
 cd /d "%~dp0.."
-if not exist .venv\Scripts\activate.bat (
-  echo Ejecute scripts\setup.bat primero.
+
+if not exist .venv\Scripts\python.exe (
+  echo No existe .venv. Ejecute: scripts\setup.bat
   exit /b 1
 )
-call .venv\Scripts\activate.bat
-set PYTHONPATH=src
-python -m dfb_publisher %*
-endlocal
+
+set "PYTHONPATH=src"
+".venv\Scripts\python.exe" -m dfb_publisher %*
+set "ERR=%ERRORLEVEL%"
+endlocal & exit /b %ERR%
