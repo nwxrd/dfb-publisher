@@ -1,0 +1,10 @@
+[project]
+name = "dfb-publisher"
+version = "1.0.0"
+description = "Publica respaldos Issabel (documentos fuentes) a Google Drive"
+requires-python = ">=3.11"
+readme = "README.md"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

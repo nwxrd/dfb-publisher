@@ -1,0 +1,17 @@
+# Copiar a config/settings.toml y ajustar.
+
+[issabel]
+job_path = "/var/www/html/modules/documentos_fuentes_backup/configs/job.json"
+backup_base = "/var/spool/asterisk/Respaldos_documentos_fuente"
+
+[paths]
+work_dir = "work"
+
+[drive]
+root_folder_id = "YOUR_FOLDER_ID"
+scopes = ["https://www.googleapis.com/auth/drive"]
+credentials_path = "secrets/credentials.json"
+token_path = "secrets/token.json"
+
+[report]
+prefix = "R_IT_AUD_002"
